@@ -3,12 +3,13 @@
  * Homework 5 – Pointer Operations
  * CSE 220 – Spring 2026
  *
- * Name:
- * SBU ID:
+ * Name: Lawrence Wong
+ * SBU ID: 116408194
  */
 
 #include "matrix.h"
 #include <stdio.h>
+// #include "sparse_helpingfunction.c"
 
 int max(int a, int b)
 {
@@ -30,7 +31,41 @@ int SparseMatrix(int D[2], int M[D[0]][D[1]],
 
     int nonZeroCount = 0;
 
-    return 0;
+    // Count non zero numbers
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+            if(*(*(M + i) + j) != 0){
+                nonZeroCount++;
+            }
+        }
+    }
+
+    // Checks for if it is a sparse matrix depending on how many non zero numbers
+    if(nonZeroCount > m){
+        return -1;
+    }
+
+    // Fills up the S matrix for the rows and columns
+    int k = 0;
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+            if(*(*(M + i) + j) != 0){
+                *(*(S + 0) + k) = i;
+                *(*(S + 1) + k) = j;
+                *(*(S + 2) + k) = *(*(M + i) + j);
+                k++;
+            }
+        }
+    }
+
+    // Fill remaining columns with 0
+    for(int col = k; col < m; col++){
+        *(*(S + 0) + col) = 0;
+        *(*(S + 1) + col) = 0;
+        *(*(S + 2) + col) = 0;
+    }
+    // print_sparse_matrix(m, S);
+    return nonZeroCount;
 }
 
 
