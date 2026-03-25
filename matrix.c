@@ -87,8 +87,33 @@ int HadamardProduct(const int D[6],
     int aRows = D[4];
     int aCols = D[5];
 
+    // Determine overlap size
+    int r = (mRows < nRows) ? mRows : nRows;
+    int c = (mCols < nCols) ? mCols : nCols;
 
-    return 0;
+    // Fill A with overlapping multiplication using pointer arithmetic
+    for(int i = 0; i < r && i < aRows; i++){
+        for (int j = 0; j < c && j < aCols; j++){
+            *(*(A + i) + j) = *(*(M + i) + j) * *(*(N + i) + j);    
+        }
+    }
+
+    // When M and N same size
+    if(mRows == nRows && mCols == nCols){
+        if (aRows == r && aCols == c)
+            return 1;   // Perfect fit
+        else if (aRows >= r && aCols >= c)
+            return 2;   // Oversized but fits
+        else
+            return -3;  // Not enough space
+    }
+    // When M and N different size
+    else{
+        if(aRows >= r && aCols >= c)
+            return -1;  // Fits intersection result
+        else
+            return -2;  // Partial fit only
+    }
 }
 
 
