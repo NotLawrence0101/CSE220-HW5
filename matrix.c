@@ -10,6 +10,7 @@
 #include "matrix.h"
 #include <stdio.h>
 // #include "sparse_helpingfunction.c"
+// #include "MuliplicationPrint.c"
 
 int max(int a, int b)
 {
@@ -91,18 +92,27 @@ int HadamardProduct(const int D[6],
     int r = (mRows < nRows) ? mRows : nRows;
     int c = (mCols < nCols) ? mCols : nCols;
 
+    // Initialize set A's size with 0s
+    for(int i = 0; i < aRows; i++){
+        for(int j = 0; j < aCols; j++){
+            *(*(A + i) + j) = 0;
+        }
+    }
+
     // Fill A with overlapping multiplication using pointer arithmetic
     for(int i = 0; i < r && i < aRows; i++){
-        for (int j = 0; j < c && j < aCols; j++){
+        for(int j = 0; j < c && j < aCols; j++){
             *(*(A + i) + j) = *(*(M + i) + j) * *(*(N + i) + j);    
         }
     }
 
+    // print_matrix("A", *A, aRows, aCols);
+
     // When M and N same size
     if(mRows == nRows && mCols == nCols){
-        if (aRows == r && aCols == c)
+        if(aRows == r && aCols == c)
             return 1;   // Perfect fit
-        else if (aRows >= r && aCols >= c)
+        else if(aRows >= r && aCols >= c)
             return 2;   // Oversized but fits
         else
             return -3;  // Not enough space
@@ -135,8 +145,51 @@ int Multiplication(const int D[6],
     int aRows = D[4];
     int aCols = D[5];
 
+    // Initialize set A's size with 0s
+    for(int i = 0; i < aRows; i++){
+        for(int j = 0; j < aCols; j++){
+            *(*(A + i) + j) = 0;
+        }
+    }
 
-    return 0;
+    // Checks if the sizes are the compatible or not for matrix multiplication
+    int compatible = (mCols == nRows);
+
+    // Inner dimension
+    int inner = compatible ? mCols : (mCols < nRows ? mCols : nRows);
+
+    // Result dimensions
+    int r = mRows;
+    int c = nCols;
+
+    // Multiply the matrices only for the dimensions of A
+    for(int i = 0; i < r && i < aRows; i++){
+        for(int j = 0; j < c && j < aCols; j++){
+            int sum = 0;
+            for(int k = 0; k < inner; k++){
+                sum += (*(*(M + i) + k)) * (*(*(N + k) + j));
+            }
+            *(*(A + i) + j) = sum;
+        }
+    }
+
+    // print_matrix("A", *A, aRows, aCols);
+
+    // Returns the cases
+    if(compatible){
+        if(aRows == r && aCols == c)
+            return 1;   // Exact fit
+        else if(aRows >= r && aCols >= c)
+            return 2;   // Oversized but fits
+        else
+            return -3;  // Partial result only
+    }
+    else{
+        if(aRows >= r && aCols >= c)
+            return -1;  // Fits multiplication result
+        else
+            return -2;  // Partial fit
+    }
 }
 
 

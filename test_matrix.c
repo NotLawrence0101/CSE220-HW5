@@ -181,46 +181,449 @@ Test(SparseMatrix, bigger_sparse_test)
   2. Hadamard Product Test Cases
 ----------------------------------------------------*/
 
-Test(HadamardProduct, compatible)
+Test(HadamardProduct, compatible_HadamardProduct_test)
 {
     int D[6] = {2,2,2,2,2,2};
 
     int M[2][2] = {
-        {1,2},
-        {3,4}
+        {5,3},
+        {5,3}
     };
 
     int N[2][2] = {
+        {3,5},
+        {3,5}
+    };
+
+    int A[2][2];
+
+    int r = HadamardProduct(D, M, N, A);
+
+    cr_assert_eq(r, 1);
+}
+
+Test(HadamardProduct, oversizedA_HadamardProduct_test)
+{
+    int D[6] = {2,2,2,2,5,5};
+
+    int M[2][2] = {
+        {5,3},
+        {5,3}
+    };
+
+    int N[2][2] = {
+        {3,5},
+        {3,5}
+    };
+
+    int A[5][5];
+
+    int r = HadamardProduct(D, M, N, A);
+
+    cr_assert_eq(r, 2);
+}
+
+Test(HadamardProduct, oversizedMN_HadamardProduct_test)
+{
+    int D[6] = {3,3,3,3,2,2};
+
+    int M[3][3] = {
+        {1,2,3},
+        {4,5,6},
+        {7,8,9}
+    };
+
+    int N[3][3] = {
+        {2,2,2},
+        {2,2,2},
+        {2,2,2}
+    };
+
+    int A[2][2];
+
+    int r = HadamardProduct(D, M, N, A);
+
+    cr_assert_eq(r, -3);
+}
+
+Test(HadamardProduct, differentMN_fit_HadamardProduct_test)
+{
+    int D[6] = {3,3,3,2,3,2};
+
+    int M[3][3] = {
+        {1,2,3},
+        {4,5,6},
+        {7,8,9}
+    };
+
+    int N[3][2] = {
+        {2,2},
+        {2,2},
+        {2,2}
+    };
+
+    int A[3][2];
+
+    int r = HadamardProduct(D, M, N, A);
+
+    cr_assert_eq(r, -1);
+}
+
+Test(HadamardProduct, differentMN_partial_HadamardProduct_test)
+{
+    int D[6] = {3,3,3,2,2,2};
+
+    int M[3][3] = {
+        {1,2,3},
+        {4,5,6},
+        {7,8,9}
+    };
+
+    int N[3][2] = {
+        {2,2},
         {2,2},
         {2,2}
     };
 
     int A[2][2];
 
-    int r = HadamardProduct(D,M,N,A);
+    int r = HadamardProduct(D, M, N, A);
 
-    cr_assert_eq(r,1);
+    cr_assert_eq(r, -2);
+}
+
+Test(HadamardProduct, zero_HadamardProduct_test)
+{
+    int D[6] = {2,2,2,2,2,2};
+
+    int M[2][2] = {
+        {0,0},
+        {0,0}
+    };
+
+    int N[2][2] = {
+        {3,5},
+        {3,5}
+    };
+
+    int A[2][2];
+
+    int r = HadamardProduct(D, M, N, A);
+
+    cr_assert_eq(r, 1);
+}
+
+Test(HadamardProduct, largerA_HadamardProduct_test)
+{
+    int D[6] = {2,2,2,2,10,10};
+
+    int M[2][2] = {
+        {1,1},
+        {1,1}
+    };
+
+    int N[2][2] = {
+        {3,5},
+        {3,5}
+    };
+
+    int A[10][10];
+
+    int r = HadamardProduct(D, M, N, A);
+
+    cr_assert_eq(r, 2);
+}
+
+Test(HadamardProduct, smallA_HadamardProduct_test)
+{
+    int D[6] = {2,2,2,2,1,1};
+
+    int M[2][2] = {
+        {1,1},
+        {1,1}
+    };
+
+    int N[2][2] = {
+        {3,5},
+        {3,5}
+    };
+
+    int A[1][1];
+
+    int r = HadamardProduct(D, M, N, A);
+
+    cr_assert_eq(r, -3);
+}
+
+Test(HadamardProduct, partial_HadamardProduct_test)
+{
+    int D[6] = {2,5,5,2,3,3};
+
+    int M[2][5] = {
+        {1,2,3,4,5},
+        {5,7,8,9,10}
+    };
+
+    int N[5][2] = {
+        {3,5},
+        {3,5},
+        {3,5},
+        {3,5},
+        {3,5}
+    };
+
+    int A[3][3];
+
+    int r = HadamardProduct(D, M, N, A);
+
+    cr_assert_eq(r, -1);
+}
+
+Test(HadamardProduct, biggerCompatible_HadamardProduct_test)
+{
+    int D[6] = {5,2,5,2,5,2};
+
+    int M[5][2] = {
+        {5,3},
+        {5,3},
+        {5,3},
+        {5,3},
+        {5,3}
+    };
+
+    int N[5][2] = {
+        {3,5},
+        {3,5},
+        {3,5},
+        {3,5},
+        {3,5}
+    };
+
+    int A[5][2];
+
+    int r = HadamardProduct(D, M, N, A);
+
+    cr_assert_eq(r, 1);
 }
 
 /*----------------------------------------------------
   3. Multiplication Test Cases
 ----------------------------------------------------*/
 
-Test(Multiplication, simple_case)
+Test(Multiplication, compatible_Multiplication_test)
 {
     int D[6] = {2,2,2,2,2,2};
 
     int M[2][2] = {
-        {1,2},
-        {3,4}
+        {2,2},
+        {2,2}
     };
 
     int N[2][2] = {
-        {5,6},
-        {7,8}
+        {1,1},
+        {1,1}
     };
 
     int A[2][2];
+
+    int r = Multiplication(D,M,N,A);
+
+    cr_assert_eq(r,1);
+}
+
+Test(Multiplication, oversizedA_Multiplication_test)
+{
+    int D[6] = {2,2,2,2,5,5};
+
+    int M[2][2] = {
+        {2,2},
+        {2,2}
+    };
+
+    int N[2][2] = {
+        {1,1},
+        {1,1}
+    };
+
+    int A[5][5];
+
+    int r = Multiplication(D,M,N,A);
+
+    cr_assert_eq(r,2);
+}
+
+Test(Multiplication, partialA_Multiplication_test)
+{
+    int D[6] = {2,2,2,2,2,1};
+
+    int M[2][2] = {
+        {2,2},
+        {2,2}
+    };
+
+    int N[2][2] = {
+        {1,1},
+        {1,1}
+    };
+
+    int A[2][1];
+
+    int r = Multiplication(D,M,N,A);
+
+    cr_assert_eq(r,-3);
+}
+
+Test(Multiplication, uncompatible_partial_Multiplication_test)
+{
+    int D[6] = {3,2,3,2,2,2};
+
+    int M[3][2] = {
+        {2,2},
+        {2,2},
+        {2,2}
+    };
+
+    int N[3][2] = {
+        {2,2},
+        {2,2},
+        {2,2}
+    };
+
+    int A[2][2];
+
+    int r = Multiplication(D,M,N,A);
+
+    cr_assert_eq(r,-2);
+}
+
+Test(Multiplication, uncompatible_fitA_Multiplication_test)
+{
+    int D[6] = {3,2,3,2,5,5};
+
+    int M[3][2] = {
+        {2,2},
+        {2,2},
+        {2,2}
+    };
+
+    int N[3][2] = {
+        {2,2},
+        {2,2},
+        {2,2}
+    };
+
+    int A[5][5];
+
+    int r = Multiplication(D,M,N,A);
+
+    cr_assert_eq(r,-1);
+}
+
+Test(Multiplication, compatibleMNA_Multiplication_test)
+{
+    int D[6] = {1,3,3,2,1,2};
+
+    int M[1][3] = {
+        {2,2,2}
+    };
+
+    int N[3][2] = {
+        {1,2},
+        {3,4},
+        {5,6}
+    };
+
+    int A[1][2];
+
+    int r = Multiplication(D,M,N,A);
+
+    cr_assert_eq(r,1);
+}
+
+Test(Multiplication, compatibleMN_Multiplication_test)
+{
+    int D[6] = {1,3,3,2,5,5};
+
+    int M[1][3] = {
+        {2,2,2}
+    };
+
+    int N[3][2] = {
+        {1,2},
+        {3,4},
+        {5,6}
+    };
+
+    int A[5][5];
+
+    int r = Multiplication(D,M,N,A);
+
+    cr_assert_eq(r,2);
+}
+
+Test(Multiplication, zero_Multiplication_test)
+{
+    int D[6] = {3,3,3,3,3,3};
+
+    int M[3][3] = {
+        {0,0,0},
+        {0,0,0},
+        {0,0,0}
+    };
+
+    int N[3][3] = {
+        {1,2,3},
+        {4,5,6},
+        {7,8,9}
+    };
+
+    int A[3][3];
+
+    int r = Multiplication(D,M,N,A);
+
+    cr_assert_eq(r,1);
+}
+
+Test(Multiplication, identity_Multiplication_test)
+{
+    int D[6] = {3,3,3,3,3,3};
+
+    int M[3][3] = {
+        {1,0,0},
+        {0,1,0},
+        {0,0,1}
+    };
+
+    int N[3][3] = {
+        {1,2,3},
+        {4,5,6},
+        {7,8,9}
+    };
+
+    int A[3][3];
+
+    int r = Multiplication(D,M,N,A);
+
+    cr_assert_eq(r,1);
+}
+
+Test(Multiplication, identity_squared_Multiplication_test)
+{
+    int D[6] = {3,3,3,3,3,3};
+
+    int M[3][3] = {
+        {1,0,0},
+        {0,1,0},
+        {0,0,1}
+    };
+
+    int N[3][3] = {
+        {1,0,0},
+        {0,1,0},
+        {0,0,1}
+    };
+
+    int A[3][3];
 
     int r = Multiplication(D,M,N,A);
 
