@@ -207,6 +207,59 @@ int DiagonalSum(const int D[4],
     int dsRows = D[2];
     int dsCols = D[3];
 
+    // Initialize DS to 0
+    int *dsPtr = (int *)DS;
+    for(int i = 0; i < dsRows * dsCols; i++)
+        *(dsPtr + i) = 0;
 
-    return 0;
+    // Required size
+    int reqRows = rows + 2;
+    int reqCols = (cols > 2) ? cols : 2;
+
+    // Handles the diagonal
+    int mainDiag = 0;
+    for(int i = 0; i < rows && i < cols; i++)
+        mainDiag += *(*(A + i) + i);
+    if(dsRows > 0 && dsCols > 0)
+        *(*(DS + 0) + 0) = mainDiag;
+
+    // Handles the anti-diagonal
+    if(rows == cols){
+        int antiDiag = 0;
+        for(int i = 0; i < rows; i++)
+            antiDiag += *(*(A + i) + (cols - 1 - i));
+
+        if(dsRows > 0 && dsCols > 1)
+            *(*(DS + 0) + 1) = antiDiag;
+    }
+
+    // Handles the sums of columns
+    for(int j = 0; j < cols; j++){
+        int colSum = 0;
+        for(int i = 0; i < rows; i++)
+            colSum += *(*(A + i) + j);
+
+        if(dsRows > 1 && j < dsCols)
+            *(*(DS + 1) + j) = colSum;
+    }
+
+    // Handles the sums of rows
+    for(int i = 0; i < rows; i++){
+        int rowSum = 0;
+        for(int j = 0; j < cols; j++)
+            rowSum += *(*(A + i) + j);
+
+        if((i + 2) < dsRows && dsCols > 0)
+            *(*(DS + (i + 2)) + 0) = rowSum;
+    }
+
+    // Returns the status codes
+    if(dsRows >= reqRows && dsCols >= reqCols){
+        if(dsRows == reqRows && dsCols == reqCols){
+            return 1; // Exact fit
+        }else{
+            return 2; // Oversized
+        }
+    }
+    return -1; // Partial fit
 }

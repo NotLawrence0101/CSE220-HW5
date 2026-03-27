@@ -634,17 +634,166 @@ Test(Multiplication, identity_squared_Multiplication_test)
   4. Diagonal Sum Test Cases
 ----------------------------------------------------*/
 
-Test(DiagonalSum, square_matrix)
+Test(DiagonalSum, basic_DiagonalSum_test)
 {
-    int D[4] = {3,3,5,5};
+    int D[4] = {3,3,5,3};
+
+    int A[3][3] = {
+        {2,3,4},
+        {5,6,7},
+        {8,9,10}
+    };
+
+    int DS[5][3];
+
+    int r = DiagonalSum(D,A,DS);
+
+    cr_assert_eq(r,1);
+}
+
+Test(DiagonalSum, oversizedDS_DiagonalSum_test)
+{
+    int D[4] = {2,2,6,6};
+
+    int A[3][3] = {
+        {1,2},
+        {3,4}
+    };
+
+    int DS[6][6];
+
+    int r = DiagonalSum(D,A,DS);
+
+    cr_assert_eq(r,2);
+}
+
+Test(DiagonalSum, undersizedDS_DiagonalSum_test)
+{
+    int D[4] = {3,3,2,2};
+
+    int A[3][3] = {
+        {2,3,4},
+        {5,6,7},
+        {8,9,10}
+    };
+
+    int DS[2][2];
+
+    int r = DiagonalSum(D,A,DS);
+
+    cr_assert_eq(r,-1);
+}
+
+Test(DiagonalSum, rectangle_DiagonalSum_test)
+{
+    int D[4] = {2,3,4,3};
 
     int A[3][3] = {
         {1,2,3},
         {4,5,6},
-        {7,8,9}
     };
 
-    int DS[5][5];
+    int DS[4][3];
+
+    int r = DiagonalSum(D,A,DS);
+
+    cr_assert_eq(r,1);
+}
+
+Test(DiagonalSum, single_DiagonalSum_test)
+{
+    int D[4] = {1,1,3,2};
+
+    int A[1][1] = {
+        {1}
+    };
+
+    int DS[3][2];
+
+    int r = DiagonalSum(D,A,DS);
+
+    cr_assert_eq(r,1);
+}
+
+Test(DiagonalSum, oneD_DiagonalSum_test)
+{
+    int D[4] = {1,4,3,4};
+
+    int A[1][4] = {
+        {1,2,3,4}
+    };
+
+    int DS[3][4];
+
+    int r = DiagonalSum(D,A,DS);
+
+    cr_assert_eq(r,1);
+}
+
+Test(DiagonalSum, column_DiagonalSum_test)
+{
+    int D[4] = {4,1,6,2};
+
+    int A[4][1] = {
+        {1},
+        {2},
+        {3},
+        {4}
+    };
+
+    int DS[6][2];
+
+    int r = DiagonalSum(D,A,DS);
+
+    cr_assert_eq(r,1);
+}
+
+Test(DiagonalSum, narrowDS_DiagonalSum_test)
+{
+    int D[4] = {3,4,5,2};
+
+    int A[3][4] = {
+        {1,2,3,4},
+        {5,6,7,8},
+        {9,10,11,12}
+    };
+
+    int DS[5][2];
+
+    int r = DiagonalSum(D,A,DS);
+
+    cr_assert_eq(r,-1);
+}
+
+Test(DiagonalSum, shortDS_DiagonalSum_test)
+{
+    int D[4] = {4,2,3,3};
+
+    int A[4][2] = {
+        {1,2},
+        {3,4},
+        {5,6},
+        {7,8}
+    };
+
+    int DS[3][3];
+
+    int r = DiagonalSum(D,A,DS);
+
+    cr_assert_eq(r,-1);
+}
+
+Test(DiagonalSum, zero_DiagonalSum_test)
+{
+    int D[4] = {3,3,5,3};
+
+    int A[3][3] = {
+        {0,0,0},
+        {0,0,0},
+        {0,0,0}
+    };
+
+    int DS[5][3];
 
     int r = DiagonalSum(D,A,DS);
 
