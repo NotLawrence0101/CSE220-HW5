@@ -10,7 +10,7 @@
 #include "matrix.h"
 #include <stdio.h>
 // #include "sparse_helpingfunction.c"
-// #include "MuliplicationPrint.c"
+// #include "MuliplicationPrint.c" // parametes should be (int m, int S[3][m])
 
 int max(int a, int b)
 {

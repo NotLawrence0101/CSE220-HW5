@@ -5,6 +5,7 @@ Name: Lawrence Wong
 SBU ID: 116408194
 
 The test cases are in the file "test_matrix.c", which sections off each section of the matrix homework with comments.
+The tests can be run by using "make test".
 
 SparseMatrix Test Cases:
 • Tests for basic use of counting nonzero entries within the maximums.
